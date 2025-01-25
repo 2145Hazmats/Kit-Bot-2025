@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -20,17 +22,17 @@ public final class Constants {
   public static final class DriveConstants {
     public static final int LEFT_LEADER_ID = 2;
     public static final int RIGHT_LEADER_ID = 4;
-    // public static final int BL_SHOOTER_ID = 5;
-    // public static final int BR_SHOOTER_ID = 5;
-    // public static final int UL_SHOOTER_ID = 5;
-    // public static final int UR_SHOOTER_ID = 5;
+  
 
-    public static final int DRIVE_MOTOR_CURRENT_LIMIT = 60;
+    public static final int DRIVE_MOTOR_CURRENT_LIMIT = 40;
+    public static final double GEAR_RATIO = 1/12.75;
+    public static final double WHEEL_CIRCUMFERENCE = Units.inchesToMeters(6) * Math.PI;
+    public static final double ENCODER_CONVERSION_FACTOR = GEAR_RATIO * WHEEL_CIRCUMFERENCE;
   }
 
   public static final class RollerConstants {
     public static final int ROLLER_MOTOR_ID = 5;
-    public static final int ROLLER_MOTOR_CURRENT_LIMIT = 60;
+    public static final int ROLLER_MOTOR_CURRENT_LIMIT = 40;
     public static final double ROLLER_MOTOR_VOLTAGE_COMP = 10;
     public static final double ROLLER_EJECT_VALUE = 0.44;
   }

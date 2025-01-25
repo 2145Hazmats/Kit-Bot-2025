@@ -59,7 +59,7 @@ public class CANDriveSubsystem extends SubsystemBase {
         SparkMaxConfig config = new SparkMaxConfig();
         config.voltageCompensation(12);
         config.smartCurrentLimit(DriveConstants.DRIVE_MOTOR_CURRENT_LIMIT);
-
+        config.encoder.positionConversionFactor(DriveConstants.ENCODER_CONVERSION_FACTOR);
         // Set configuration to follow leader and then apply it to corresponding
         // follower. Resetting in case a new controller is swapped
         // in and persisting in case of a controller reset due to breaker trip
@@ -75,6 +75,7 @@ public class CANDriveSubsystem extends SubsystemBase {
         // so that postive values drive both sides forward
         config.inverted(true);
         leftLeader.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
+       
     }
 
     @Override

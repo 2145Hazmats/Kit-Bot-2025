@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -38,6 +39,9 @@ public class RobotContainer {
 
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
+  private SlewRateLimiter transLimiter = new SlewRateLimiter(1.5);
+  private SlewRateLimiter rotlimiter = new SlewRateLimiter(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -77,8 +81,10 @@ public class RobotContainer {
     // value)
     driveSubsystem.setDefaultCommand(
         driveSubsystem.driveArcade(
-            driveSubsystem, () -> -driverController.getLeftY(), () -> -driverController.getRightX()));
-
+            driveSubsystem,
+            () -> transLimiter.calculate(driverController.getLeftY()*0.8),
+            () -> rotlimiter.calculate(driverController.getRightX()*0.55)));
+ 
     // Set the default command for the roller subsystem to the command from the
     // factory with the values provided by the triggers on the operator controller
     // rollerSubsystem.setDefaultCommand(
