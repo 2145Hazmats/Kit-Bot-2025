@@ -14,6 +14,7 @@ import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.CANDriveSubsystem;
 //import frc.robot.subsystems.CANRollerSubsystem;
+import frc.robot.subsystems.CANRollerSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,6 +28,7 @@ import frc.robot.subsystems.CANDriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
+  private final CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
   //private final CANRollerSubsystem rollerSubsystem = new CANRollerSubsystem();
 
   // The driver's controller
@@ -52,7 +54,7 @@ public class RobotContainer {
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
     // autoChooser.addOption
-    autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem));
+    autoChooser.setDefaultOption("Autonomous", Autos.exampleAuto(driveSubsystem, rollerSubsystem));
   }
 
   /**
@@ -79,19 +81,18 @@ public class RobotContainer {
     // controller. The Y axis of the controller is inverted so that pushing the
     // stick away from you (a negative value) drives the robot forwards (a positive
     // value)
+
+    driverController.b().whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> 0.5, () -> 0));
+    driverController.a().whileTrue(rollerSubsystem.runRoller(rollerSubsystem, () -> 0, () -> 0.5));
+
+    rollerSubsystem.setDefaultCommand(
+        rollerSubsystem.runRoller(rollerSubsystem, () -> 0.0, () -> 0.0));
+        
     driveSubsystem.setDefaultCommand(
         driveSubsystem.driveArcade(
             driveSubsystem,
             () -> transLimiter.calculate(driverController.getLeftY()*0.8),
             () -> rotlimiter.calculate(driverController.getRightX()*0.55)));
- 
-    // Set the default command for the roller subsystem to the command from the
-    // factory with the values provided by the triggers on the operator controller
-    // rollerSubsystem.setDefaultCommand(
-    //     rollerSubsystem.runRoller(
-    //         rollerSubsystem,
-    //         () -> operatorController.getRightTriggerAxis(),
-    //         () -> operatorController.getLeftTriggerAxis()));
   }
 
   /**
@@ -101,6 +102,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return Autos.exampleAuto(driveSubsystem, rollerSubsystem);
   }
 }

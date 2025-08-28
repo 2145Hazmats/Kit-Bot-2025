@@ -12,7 +12,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +26,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     private final SparkMax rightLeader;
     // private final SparkMax rightFollower;
 
-    private final ADXRS450_Gyro gyro;
+    private final ADIS16470_IMU gyro;
 
     private final DifferentialDrive drive;
 
@@ -41,7 +41,7 @@ public class CANDriveSubsystem extends SubsystemBase {
         drive = new DifferentialDrive(leftLeader, rightLeader);
 
         // set up gyro
-        gyro = new ADXRS450_Gyro();
+        gyro = new ADIS16470_IMU();
 
         // Set can timeout. Because this project only sets parameters once on
         // construction, the timeout can be long without blocking robot operation. Code
